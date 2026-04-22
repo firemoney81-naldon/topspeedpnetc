@@ -1,23 +1,391 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+  <style>
+    /* CSS 변수 설정 */
+    :root {
+      --primary-color: #007bff; /* 청록색 계열 */
+      --secondary-color: #28a745; /* 녹색 계열 */
+      --background-light: #f8f9fa; /* 밝은 배경 */
+      --text-color: #333;
+      --border-color: #e9ecef;
+      --section-padding: 60px 20px;
+    }
+
+    /* 기본 레이아웃 및 폰트 설정 */
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      background-color: #fff;
+    }
+    header, section, footer { max-width: 1000px; margin: auto; padding: var(--section-padding); }
+
+    /* 헤더 디자인 */
+    header {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* 부드러운 그라데이션 */
+      text-align: center;
+      padding: 80px 20px;
+      color: #1a237e; /* 짙은 파란색 */
+    }
+    header h1 { font-size: 2.5em; margin-bottom: 10px; color: #004d40; font-weight: 700; }
+    header p { font-size: 1.2em; color: #455a64; margin-bottom: 20px; }
+
+    /* CTA 버튼 스타일 */
+    .cta-btn {
+      display: inline-block;
+      padding: 18px 30px;
+      background-color: var(--secondary-color);
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+    }
+    .cta-btn:hover { background-color: #218838; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4); }
+
+    /* 섹션 공통 스타일 */
+    section { margin-bottom: 40px; background-color: #fff; border-radius: 12px; }
+    section h2 { font-size: 2em; color: var(--primary-color); text-align: center; margin-bottom: 30px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+    section h3 { font-size: 1.5em; color: #004d40; margin-top: 30px; margin-bottom: 15px; border-left: 5px solid var(--secondary-color); padding-left: 10px; }
+
+    /* 서비스/특징 리스트 스타일 */
+    .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+    .feature-item {
+      padding: 25px;
+      background-color: var(--background-light);
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+    .feature-item h4 { color: #004d40; font-size: 1.2em; margin-top: 0; }
+
+    /* 이미지 스타일 */
+    .content-image { width: 100%; height: auto; border-radius: 12px; margin: 20px 0; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
+
+    /* 테이블 스타일 */
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid var(--border-color); padding: 12px; text-align: center; font-size: 0.95em; }
+    th { background-color: #e3f2fd; color: #1a237e; font-weight: bold; }
+    tr:nth-child(even) { background-color: #f8f9fa; }
+
+    /* FAQ 및 후기 스타일 */
+    .faq-item { margin-bottom: 20px; border-bottom: 1px dashed var(--border-color); padding-bottom: 15px; }
+    .faq-item h3 { border: none; font-size: 1.1em; margin-top: 0; cursor: pointer; color: #007bff; }
+    .faq-answer { display: block; padding: 10px 0 10px 15px; background-color: #f1f1f1; border-radius: 5px; margin-top: 10px; }
+    blockquote { font-style: italic; border-left: 4px solid var(--secondary-color); margin: 20px 0; padding-left: 15px; background-color: var(--background-light); padding: 15px; border-radius: 8px; }
+
+    /* 폼 스타일 */
+    .quote-form input[type="text"], .quote-form input[type="tel"], .quote-form textarea, .quote-form select {
+      width: calc(100% - 24px); padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 1em;
+    }
+    .quote-form label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+    .form-submit-btn { background-color: var(--secondary-color); color: white; border: none; cursor: pointer; font-size: 1.1em; padding: 15px 20px; border-radius: 5px; transition: background 0.3s ease; }
+    .form-submit-btn:hover { background-color: #218838; }
+
+    /* 푸터 스타일 */
+    footer { background-color: #343a40; color: #fff; text-align: center; padding: 30px; font-size: 0.9em; margin-top: 40px; }
+    footer a { color: #fff; text-decoration: none; margin: 0 10px; }
+
+    /* 외부 링크 강조 */
+    .external-link { color: #007bff; font-weight: bold; text-decoration: underline; }
+
+    /* 그래프 시각화 (간단한 HTML/CSS) */
+    .chart-container { display: flex; justify-content: space-around; padding: 20px; background-color: #f1f1f1; border-radius: 10px; margin-bottom: 30px; }
+    .bar { background-color: var(--primary-color); height: 150px; width: 20%; position: relative; border-radius: 5px; transition: height 0.5s ease; }
+    .bar-label { text-align: center; margin-top: 10px; font-weight: bold; color: #555; }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+      header { padding: 60px 20px; }
+      header h1 { font-size: 2em; }
+      section { padding: 30px 15px; }
+      .feature-list { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- Schema Markup JSON-LD for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "초고속 인터넷 가입 및 설치",
+    "name": "원주 인터넷 가입센터",
+    "url": "https://example.com",
+    "description": "2026년 최신 원주 지역 인터넷 요금제 비교 및 신규 가입 혜택 안내. SKT, KT, LGU+ 통신사별 비교를 통해 가장 저렴한 곳을 추천하며, 최대 현금 사은품 지원을 약속합니다.",
+    "provider": {
+      "@type": "Organization",
+      "name": "원주 인터넷 가입 전문",
+      "logo": "https://example.com/logo.png"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "원주광역시",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "원주",
+        "addressRegion": "강원특별자치도"
+      }
+    },
+    "keywords": ["원주인터넷", "원주 인터넷 가입", "원주 인터넷 설치", "원주 통신사 비교", "원주 현금 사은품", "원주 신규 가입 혜택", "원주 인터넷 비용", "원주 인터넷 견적", "원주 혁신도시 인터넷"]
+  }
+  </script>
+
+</head>
+<body>
+
+  <header>
+    <h1>원주 인터넷 가입 | 2026년 신규 혜택 비교 전문</h1>
+    <p>원주 SKT, KT, LGU+ 통신사별 요금 및 현금 사은품을 투명하게 비교 분석합니다.</p>
+    <a href="#quote-form" class="cta-btn">📞 실시간 무료 견적 상담 받기</a>
+  </header>
+
+  <section id="introduction">
+    <h2>원주 인터넷 가입, 현명하게 선택하는 4가지 방법</h2>
+    <p>원주 시민 여러분, 2026년 현재 초고속 인터넷 가입 시 현금 사은품 지원, 요금 할인 등 다양한 혜택을 받을 수 있습니다. 하지만 통신사별로 혜택과 요금제가 천차만별이어서 어떤 상품을 선택해야 할지 고민이 많습니다. '원주 인터넷 가입' 키워드로 검색했을 때 수많은 업체들이 나오지만, 저희는 고객님의 상황(1인 가구, 가족 결합, 이사 등)에 최적화된 상품을 찾아드리는 전문 컨설팅을 제공합니다.</p>
+    <p>원주 지역은 혁신도시와 기업도시를 중심으로 인구가 꾸준히 증가하며 초고속 인터넷 수요도 높아지고 있습니다. 이에 따라 통신사 간 경쟁이 치열해져 신규 가입 혜택이 더욱 중요해졌습니다. 저희는 고객님이 현명하게 인터넷 상품을 선택할 수 있도록 통신 3사(SKT, KT, LGU+)의 2026년 최신 요금제와 사은품 현황을 투명하게 공개하고 비교 분석해드립니다.</p>
+
+    <div class="feature-list">
+      <div class="feature-item">
+        <h4>1. 통신사별 장단점 명확한 비교</h4>
+        <p>SKT, KT, LGU+ 각 통신사의 강점과 약점을 정확히 파악하여 고객님의 이용 환경에 맞는 최적의 통신사를 추천합니다.</p>
+      </div>
+      <div class="feature-item">
+        <h4>2. 최대 현금 사은품 보장</h4>
+        <p>법정 최대 금액에 근접한 현금 지원을 약속하며, 투명한 절차를 통해 신속하게 사은품을 지급합니다.</p>
+      </div>
+      <div class="feature-item">
+        <h4>3. 맞춤형 요금 컨설팅</h4>
+        <p>원주 원룸 이사부터 아파트, 사무실 이전까지 모든 상황에 맞는 맞춤형 요금제를 제시하여 불필요한 비용을 절감해드립니다.</p>
+      </div>
+      <div class="feature-item">
+        <h4>4. 2026년 최신 정보 업데이트</h4>
+        <p>통신사 정책 변화에 따라 실시간으로 변동하는 사은품 및 요금 정보를 가장 빠르게 반영하여 안내합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="location-guide">
+    <h2>원주 지역별 인터넷 가입 가이드: 혁신도시, 기업도시 집중 분석</h2>
+    <p>원주시는 강원특별자치도의 중심 도시로, 특정 지역에 따라 통신사별 커버리지나 설치 가능 일정이 달라질 수 있습니다. 특히 <strong>원주 혁신도시</strong>(반곡동)와 <strong>원주 기업도시</strong>(지정면)는 신축 아파트와 오피스텔이 밀집되어 있어 초고속 인터넷 수요가 높습니다. 해당 지역 거주자들은 일반 주택가와는 다른 혜택이나 설치 조건이 적용될 수 있습니다.</p>
+    <p>저희는 원주시의 주요 지역을 포함한 세부 동네(<strong>단계동</strong>, <strong>무실동</strong>, <strong>명륜동</strong>, <strong>단구동</strong>, <strong>태장동</strong>, <strong>봉산동</strong>, <strong>개운동</strong>, <strong>관설동</strong>)의 설치 환경을 면밀히 분석하여, 고객님의 주소지에 최적화된 상품을 찾아드립니다. 예를 들어, 기업도시의 신규 아파트는 SKT, KT, LGU+ 중 한 통신사의 독점 계약이 되어 있는 경우가 있으니 반드시 확인해야 합니다. <strong>원주 원룸 인터넷</strong> 가입 시에는 무약정 상품이나 단기 계약 상품을 고려할 수 있습니다.</p>
+
+    <h3>원주 주요 지역별 설치 환경 및 추천 상품</h3>
+    <ul>
+      <li><strong>원주 혁신도시 (반곡동):</strong> 공공기관 밀집 지역으로 안정적인 속도가 중요합니다. KT의 경우 우수한 인프라를 바탕으로 안정적인 서비스를 제공합니다.</li>
+      <li><strong>원주 기업도시 (지정면):</strong> 신축 아파트가 많아 통신사별 경쟁이 치열한 곳입니다. 신규 가입 혜택(사은품, 현금지원)을 최대로 받을 수 있는 최적의 시기입니다.</li>
+      <li><strong>구도심 (단계동, 무실동):</strong> 원주 시내의 중심지로 다양한 통신사의 선택지가 있습니다. 결합 상품을 통해 요금 할인(저렴한곳 찾기)을 극대화하는 것이 중요합니다.</li>
+    </ul>
+
+    <figure>
+      <img src="https://images.pexels.com/photos/4500355/pexels-photo-4500355.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="원주 혁신도시 아파트 단지 전경" class="content-image">
+      <figcaption>원주 혁신도시와 기업도시는 빠른 인터넷 환경 구축이 중요합니다.</figcaption>
+    </figure>
+
+    <p>지역별 상세 견적은 무료 상담을 통해 정확하게 파악할 수 있습니다. <strong>원주 인터넷 가입 시 비용</strong>은 <strong>평균</strong>적으로 월 3만원대(100MB 기준)부터 시작하며, 500MB, 1GB 속도에 따라 <strong>예상 금액</strong>이 달라집니다.</p>
+
+  </section>
+
+  <section id="comparison">
+    <h2>통신사별 비교 분석: SKT vs KT vs LGU+ 장단점 및 2026년 혜택</h2>
+    <p>인터넷 가입을 결정할 때 가장 중요한 요소는 요금과 사은품이지만, <strong>장단점</strong> 비교를 통해 우리 집 환경에 맞는 통신사를 선택하는 것이 장기적으로 만족도를 높이는 방법입니다. 2026년 현재 통신 3사의 주요 특징을 비교해드립니다.</p>
+
+    <h3>1. KT (케이티) - 압도적인 안정성과 전국 커버리지</h3>
+    <p>KT는 대한민국 통신망의 근간을 이루는 유선 인프라가 가장 튼튼합니다. 특히 <strong>원주 지역</strong>의 구도심이나 외곽 지역에서도 안정적인 속도를 보장합니다. KT의 <strong>장점</strong>은 잦은 끊김 없이 쾌적한 인터넷 환경을 제공한다는 점입니다. 하지만 상대적으로 SKT나 LGU+에 비해 사은품 혜택이 적거나 <strong>비용</strong>이 비싸게 느껴질 수 있다는 <strong>단점</strong>이 있습니다.</p>
+    <ul>
+      <li><strong>추천 대상:</strong> 안정적인 품질을 최우선으로 생각하며, 모바일 요금제 결합 할인(KT 가족결합)을 통해 <strong>저렴한곳</strong>을 찾는 분.</li>
+      <li><strong>핵심 상품:</strong> KT GIGA Genie TV (AI 스피커 기능)</li>
+    </ul>
+
+    <h3>2. SKT (에스케이텔레콤) - 강력한 모바일 결합 할인</h3>
+    <p>SKT는 모바일 시장 점유율 1위인 만큼, SKT 모바일 사용자에게 <strong>가입</strong> 시 제공되는 결합 할인이 매우 강력합니다. "<strong>SKT 온가족 할인</strong>"이나 "<strong>SKT 한가족 할인</strong>" 등 가족 구성원 수에 따라 인터넷 요금을 대폭 절감할 수 있는 혜택이 많습니다. <strong>단점</strong>으로는 KT에 비해 인프라가 부족했던 시기가 있었으나 현재는 대부분의 지역에서 큰 차이가 없습니다. 사은품 혜택은 통신사 중 중간 수준을 유지합니다.</p>
+    <ul>
+      <li><strong>추천 대상:</strong> 가족 구성원 중 SKT 모바일 사용자가 많은 경우. 모바일과 인터넷을 통합하여 <strong>할인</strong> 받고자 하는 분.</li>
+      <li><strong>핵심 상품:</strong> SKT Btv (다양한 콘텐츠 제공)</li>
+    </ul>
+
+    <h3>3. LG U+ (엘지 유플러스) - 풍부한 현금 사은품과 콘텐츠</h3>
+    <p>LGU+는 통신사 중 가장 공격적인 마케팅을 펼치는 곳으로, <strong>신규 가입 혜택</strong>으로 <strong>현금지원</strong>, <strong>사은품</strong>, <strong>상품권</strong> 등을 가장 많이 제공하는 경우가 많습니다. 특히 <strong>내돈내산 후기</strong>를 보면 LGU+의 현금 사은품 정책에 만족하는 고객이 많습니다. <strong>장점</strong>은 IPTV 콘텐츠가 독자적으로 강세를 보이며, 다양한 제휴 상품이 많다는 것입니다. <strong>단점</strong>은 가끔 외곽 지역에서 속도 안정성이 떨어진다는 평가가 있으나, 원주 혁신도시나 기업도시 등 신규 아파트 단지에서는 인프라가 잘 갖춰져 있습니다.</p>
+    <ul>
+      <li><strong>추천 대상:</strong> 통신사 상관없이 최대 현금 사은품을 받고자 하는 분. LGU+의 독점 콘텐츠를 즐기고 싶은 분.</li>
+      <li><strong>핵심 상품:</strong> LGU+ U+tv (넷플릭스 등 OTT 제휴 강화)</li>
+    </ul>
+
+    <h3>2026년 통신사별 인터넷 요금 및 혜택 비교표 (원주 기준)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>KT (SKT, LGU+ 대비 강점)</th>
+          <th>SKT (KT, LGU+ 대비 강점)</th>
+          <th>LG U+ (SKT, KT 대비 강점)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>인터넷 품질</td>
+          <td>★★★★★ (전국 인프라 최상)</td>
+          <td>★★★★☆ (결합 시 만족도 높음)</td>
+          <td>★★★★☆ (신축 지역 우수)</td>
+        </tr>
+        <tr>
+          <td>현금 사은품 (평균)</td>
+          <td>★★★☆☆ (규정 준수)</td>
+          <td>★★★★☆ (중간 수준)</td>
+          <td>★★★★★ (최대 혜택)</td>
+        </tr>
+        <tr>
+          <td>모바일 결합 할인</td>
+          <td>KT 모바일 이용자에게 유리</td>
+          <td>SKT 모바일 이용자에게 가장 유리</td>
+          <td>LGU+ 모바일 이용자에게 유리</td>
+        </tr>
+        <tr>
+          <td>TV 콘텐츠</td>
+          <td>지니TV (AI 기능)</td>
+          <td>Btv (다양한 채널)</td>
+          <td>U+tv (OTT 제휴 강화)</td>
+        </tr>
+        <tr>
+          <td>원주 혁신도시 설치</td>
+          <td>매우 안정적 (우수 인프라)</td>
+          <td>매우 안정적 (신축 아파트 기준)</td>
+          <td>매우 안정적 (신규 고객 유치 경쟁)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>본 비교는 일반적인 <strong>차이점</strong>을 나타내며, <strong>원주 인터넷 순위</strong>는 개인의 사용 환경과 선호하는 혜택에 따라 달라집니다. 어떤 통신사가 <strong>전문</strong> 업체인지 판단하기 위해선, 상담을 통해 나에게 맞는 상품을 꼼꼼히 따져봐야 합니다.</p>
+
+  </section>
+
+  <section id="process">
+    <h2>원주 인터넷 가입 진행 절차 및 2026년 설치 팁</h2>
+    <p>원주에서 인터넷 가입을 하시는 분들을 위해, 상담부터 설치까지의 과정을 상세히 안내해 드립니다. 특히 <strong>원주 이사</strong> 시 인터넷 이전 설치가 아닌 신규 가입을 고려할 때 이 절차를 참고하시면 도움이 됩니다.</p>
+
+    <div class="feature-list">
+      <div class="feature-item">
+        <h4>1단계: 무료 견적 및 상담 요청</h4>
+        <p>전화, 카카오톡, 웹사이트 폼을 통해 상담을 요청합니다. 원하시는 속도(100MB, 500MB, 1GB), TV 채널 수, 결합 상품 여부 등을 말씀해주시면 됩니다.</p>
+      </div>
+      <div class="feature-item">
+        <h4>2단계: 통신사 및 상품 추천</h4>
+        <p>상담사는 고객님의 거주지(<strong>원주 무실동</strong>, <strong>단계동</strong> 등)에 따른 통신사별 <strong>가입</strong> 가능 여부와 혜택을 비교하여 최적의 상품을 추천해드립니다.</p>
+      </div>
+      <div class="feature-item">
+        <h4>3단계: 서류 접수 및 설치 일정 조율</h4>
+        <p>가입에 필요한 서류(신분증)를 제출하고, 고객님이 원하시는 <strong>설치 시간</strong>과 일정을 통신사 본사에 접수합니다. 이사 당일 설치를 원하시면 미리 예약해야 합니다.</p>
+      </div>
+      <div class="feature-item">
+        <h4>4단계: 설치 완료 및 사은품 지급</h4>
+        <p>통신사 기사님이 방문하여 설치를 완료하면, 영업일 기준 며칠 이내로 약속된 현금 사은품이 지급됩니다. <strong>내돈내산</strong> 고객 후기를 보면, 사은품 지급이 신속한 업체를 선호합니다.</p>
+      </div>
+    </div>
+
+    <figure>
+      <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="인터넷 설치 기사 이미지" class="content-image">
+      <figcaption>원주 전 지역을 서비스하는 전문 기사님의 신속한 설치 과정을 거칩니다.</figcaption>
+    </figure>
+
+    <h3>원주 인터넷 설치 시 자주 발생하는 문제점</h3>
+    <p><strong>원주 구도심</strong>이나 오래된 주택의 경우, 광케이블 인프라가 미비하여 원하는 속도로 설치가 불가능할 수 있습니다. 특히 <strong>원룸이사</strong> 시에는 건물주와 협의가 필요한 경우도 있습니다. 또한, 통신사에서 약속한 사은품이 제대로 지급되지 않는 경우가 있어 <strong>전문</strong> 업체 선정이 중요합니다. 저희는 법정 최대 금액을 투명하게 안내하고, 지급을 약속드립니다.</p>
+    <p><strong>원주 인터넷 가입 시 현금지원</strong> 금액은 방송통신위원회 가이드라인을 준수합니다. 일부 업체에서 과도한 금액을 제시하는 경우, 불법 업체이거나 사기일 가능성이 있으니 주의해야 합니다. <strong>원주 인터넷 싼곳</strong>을 찾는 것도 중요하지만, 믿을 수 있는 업체를 찾는 것이 더 중요합니다.</p>
+
+  </section>
+
+  <section id="faq">
+    <h2>자주 묻는 질문 (FAQ)</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>Q. <strong>원주 인터넷 가입 시 현금 사은품</strong>은 얼마나 받을 수 있나요?</h3>
+        <p class="faq-answer">A. 통신사 및 상품, 결합 조건에 따라 다르며, 법정 최대 금액 내에서 지원됩니다. 저희에게 상담하시면 고객님 상황에 맞는 정확한 <strong>예상 금액</strong>을 안내해 드립니다. <strong>평균</strong>적으로 30~50만원대(인터넷+TV 기준)의 현금 지원이 이루어집니다.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Q. <strong>원주 이사</strong> 시 인터넷 이전 설치와 신규 가입 중 어떤 것이 유리한가요?</h3>
+        <p class="faq-answer">A. 기존 약정이 남아 있다면 이전 설치가 유리할 수 있습니다. 하지만 약정이 만료되었거나, 이사를 기회로 새로운 <strong>신규 가입 혜택</strong>(현금 사은품)을 받고자 한다면 신규 가입이 더 유리할 수 있습니다. <strong>장단점</strong>을 고려하여 상담 시 결정해 드립니다.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Q. 인터넷 속도 100MB, 500MB, 1GB 중 어떤 것을 선택해야 할까요?</h3>
+        <p class="faq-answer">A. 1~2인 가구의 일반적인 웹서핑, 스트리밍 시청에는 100MB로도 충분합니다. 3인 이상 가구이거나 고화질 4K 스트리밍, 대용량 파일 다운로드가 잦다면 500MB나 1GB를 추천합니다. <strong>가격</strong> <strong>차이점</strong>은 크지 않으니 사용량을 고려하여 선택하세요.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Q. <strong>원주 인터넷 가입 시 지원금</strong>은 언제 받을 수 있나요?</h3>
+        <p class="faq-answer">A. 설치 완료 후 1~2 영업일 이내에 약속된 현금 사은품이 입금됩니다. 지급이 지연되는 업체는 피하는 것이 좋습니다. 저희는 신속하고 정확한 지급을 약속드립니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust">
+    <h2>신뢰성 확보 및 관련 정보 (2026년 기준)</h2>
+    <p>원주 인터넷 가입을 위한 신뢰할 수 있는 정보를 제공하기 위해, 공신력 있는 외부 기관의 자료를 참고할 것을 권장합니다.</p>
+
+    <div class="external-links">
+      <p><strong>참고 사이트 및 공신력 있는 정보 출처:</strong></p>
+      <ul>
+        <li><a class="external-link" href="https://www.kcc.go.kr/user.do?mode=list&page=1&boardId=1113&boardNum=116110&cpage=1&s_title=&s_search=" target="_blank">과학기술정보통신부 (정보통신망 관련 정책)</a></li>
+        <li><a class="external-link" href="https://namu.wiki/w/인터넷%20가입%20사은품" target="_blank">나무위키: 인터넷 가입 사은품 (관련 정책 및 정보)</a></li>
+        <li><a class="external-link" href="https://www.korea.kr/news/policyNewsView.do?newsId=148880629" target="_blank">대한민국 정책브리핑 (인터넷 서비스 관련 최신 정책)</a></li>
+        <li><a class="external-link" href="https://www.ftc.go.kr/ftc/policy/consumer/report/telecom.jsp" target="_blank">공정거래위원회 (통신 분야 소비자 분쟁 해결 기준)</a></li>
+        <li><a class="external-link" href="https://www.youtube.com/results?search_query=인터넷+가입+꿀팁" target="_blank">YouTube: 인터넷 가입 꿀팁 (비교 영상)</a></li>
+      </ul>
+      <p>위 사이트들을 통해 <strong>원주 인터넷 가입</strong> 관련 최신 규정 및 소비자 보호 방안을 확인할 수 있습니다. 특히 <strong>디시인사이드</strong>나 <strong>네이버 카페</strong>, <strong>구글 검색</strong>에서 얻는 정보 외에 정부 기관의 공식 발표 자료를 함께 확인하는 것이 중요합니다.</p>
+    </div>
+
+    <h3>2026년 인터넷 가입 트렌드: AI와 결합 상품의 진화</h3>
+    <p>2026년에는 AI 기술이 인터넷 서비스와 융합되고 있습니다. SKT의 NUGU, KT의 GiGA Genie 등 AI 스피커를 활용한 서비스가 일반화되었습니다. 또한, <strong>ChatGPT</strong>나 <strong>Gemini</strong>와 같은 AI 에이전트 서비스 사용량이 급증하면서 <strong>초고속 인터넷</strong>의 안정성과 속도에 대한 요구가 더욱 높아졌습니다. 저희는 이러한 트렌드에 맞춰 최신 AI 기반 서비스와 연동 가능한 상품을 추천해 드립니다.</p>
+    <p><strong>원주</strong> 지역 내에서도 <strong>AI</strong> 관련 서비스 이용이 증가하고 있어, 인터넷 가입 시 AI 서비스를 제공하는 통신사를 선택하는 것이 <strong>장점</strong>이 될 수 있습니다. <strong>단점</strong>은 이러한 부가 서비스가 추가 요금을 발생시킬 수 있다는 점입니다. <strong>장단점</strong>을 꼼꼼히 비교하여 나에게 맞는 상품을 선택하는 것이 중요합니다.</p>
+  </section>
+
+  <section id="reviews">
+    <h2>고객 후기: 원주 인터넷 가입 리얼 리뷰</h2>
+    <blockquote>“원주로 이사 오면서 인터넷 가입 때문에 고민이 많았어요. 여러 업체와 비교해봤는데, 여기가 <strong>현금지원</strong>도 가장 많이 해주고 상담도 친절해서 선택했어요. 설치도 빠르게 잘 끝났습니다.” – <strong>원주 무실동</strong> 박OO 고객님</blockquote>
+    <blockquote>“<strong>원주 기업도시</strong> 아파트 입주하면서 상담받았습니다. <strong>SKT</strong> 결합 상품으로 <strong>가격</strong> 혜택이 좋았고, 사은품도 약속대로 바로 받았습니다. <strong>전문</strong> 업체라서 믿음이 갔습니다.” – <strong>원주 지정면</strong> 최OO 고객님</blockquote>
+    <blockquote>“<strong>원주 원룸</strong>에 혼자 살면서 <strong>저렴한곳</strong>을 찾고 있었어요. <strong>LGU+</strong> 상품으로 <strong>가입</strong>했는데, <strong>비용</strong>도 만족스럽고 TV도 깔끔하게 설치되었습니다. <strong>내돈내산</strong> 후기 남깁니다.” – <strong>원주 단계동</strong> 김OO 고객님</blockquote>
+  </section>
+
+  <section id="quote-form">
+    <h2>원주 인터넷 가입 무료 견적 상담 요청</h2>
+    <p>고객님의 거주지(<strong>원주 혁신도시</strong>, <strong>원주 기업도시</strong>, <strong>단계동</strong>, <strong>무실동</strong> 등)와 원하는 상품을 알려주시면 가장 합리적인 <strong>견적</strong>을 드립니다.</p>
+    <form class="quote-form">
+      <label for="name">이름:</label>
+      <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
+
+      <label for="phone">연락처:</label>
+      <input type="tel" id="phone" name="phone" placeholder="휴대폰 번호를 입력하세요" required>
+
+      <label for="location">현재 거주지(원주):</label>
+      <select id="location" name="location" required>
+        <option value="">지역 선택</option>
+        <option value="원주혁신도시">원주 혁신도시 (반곡동)</option>
+        <option value="원주기업도시">원주 기업도시 (지정면)</option>
+        <option value="단계동">단계동</option>
+        <option value="무실동">무실동</option>
+        <option value="단구동">단구동</option>
+        <option value="명륜동">명륜동</option>
+        <option value="태장동">태장동</option>
+        <option value="그외지역">그 외 원주 지역</option>
+      </select>
+
+      <label for="service_type">희망 서비스:</label>
+      <input type="checkbox" id="service_internet" name="service_type" value="인터넷"> <label for="service_internet">인터넷만</label>
+      <input type="checkbox" id="service_tv" name="service_type" value="TV"> <label for="service_tv">인터넷 + TV</label>
+      <input type="checkbox" id="service_combined" name="service_type" value="결합상품"> <label for="service_combined">모바일 결합 상품</label>
+
+      <label for="message">문의 사항 (ex. 이사 일정, 현재 통신사 등):</label>
+      <textarea id="message" name="message" rows="5" placeholder="궁금한 점을 자세히 남겨주세요"></textarea>
+
+      <button type="submit" class="form-submit-btn">견적 상담 신청</button>
+    </form>
+  </section>
+
+  <section id="contact">
+    <h2>상담 및 문의</h2>
+    <p>원주 인터넷 가입 전문가와 직접 상담하세요.</p>
+    <p><strong>전화: 010-1234-5678</strong><br>
+       카카오톡: @wonju_internet<br>
+       이메일: help@wonju-internet.com</p>
+  </section>
+
+  
